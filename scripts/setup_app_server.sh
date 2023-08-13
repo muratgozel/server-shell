@@ -23,9 +23,9 @@ fi
 export SS_NGINX_SSL_CERTIFICATE_PATH=${SS_SSL_ROOT}${SS_APP_HOSTNAME}/fullchain.pem
 export SS_NGINX_SSL_CERTIFICATE_KEY_PATH=${SS_SSL_ROOT}${SS_APP_HOSTNAME}/key.pem
 
-nginx_server_names="${SS_SSL_HOSTNAME}"
-if ! is_subdomain "${SS_SSL_HOSTNAME}"; then
-  nginx_server_names="${nginx_server_names} www.${SS_SSL_HOSTNAME}"
+nginx_server_names="${SS_APP_HOSTNAME}"
+if ! is_subdomain "${SS_APP_HOSTNAME}"; then
+  nginx_server_names="${nginx_server_names} www.${SS_APP_HOSTNAME}"
 fi
 export SS_NGINX_SERVER_NAMES=$nginx_server_names
 export SS_NGINX_PROXY_PASS="http://localhost:${SS_APP_PORT}"
