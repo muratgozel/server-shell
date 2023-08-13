@@ -32,7 +32,7 @@ export SS_NGINX_PROXY_PASS="http://localhost:${SS_APP_PORT}"
 
 aws s3 cp "${SS_S3_NGINX_CONF_PATH}" "${SS_NGINX_CONF_DIR}${SS_APP_HOSTNAME}.conf.template" --profile "${SS_S3_PROFILE}"
 
-envsubst < "${SS_NGINX_CONF_DIR}${SS_APP_HOSTNAME}.conf.template" > "${SS_NGINX_CONF_DIR}${SS_APP_HOSTNAME}.conf"
+envsubst '${SS_NGINX_SERVER_NAMES}' '${SS_NGINX_SSL_CERTIFICATE_PATH}' '${SS_NGINX_SSL_CERTIFICATE_KEY_PATH}' '${SS_NGINX_PROXY_PASS}' < "${SS_NGINX_CONF_DIR}${SS_APP_HOSTNAME}.conf.template" > "${SS_NGINX_CONF_DIR}${SS_APP_HOSTNAME}.conf"
 
 if ! is_nginx_config_valid; then
     _err "failed to validate nginx config."
