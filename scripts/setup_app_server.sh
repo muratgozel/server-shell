@@ -27,7 +27,7 @@ nginx_server_names="${SS_APP_HOSTNAME}"
 if ! is_subdomain "${SS_APP_HOSTNAME}"; then
   nginx_server_names="${nginx_server_names} www.${SS_APP_HOSTNAME}"
 fi
-export SS_NGINX_SERVER_NAMES=$nginx_server_names
+export SS_NGINX_SERVER_NAMES="$nginx_server_names"
 export SS_NGINX_PROXY_PASS="http://localhost:${SS_APP_PORT}"
 export SS_NGINX_WEBROOT="${SS_APP_ROOT}${SS_APP_HOSTNAME}/www"
 
