@@ -40,3 +40,5 @@ if ! is_nginx_config_valid; then
 fi
 
 service nginx force-reload
+
+rm "${SS_NGINX_CONF_DIR}${SS_APP_HOSTNAME}.conf.template"
