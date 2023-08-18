@@ -7,7 +7,7 @@ if ! _exists nginx; then _err "nginx not found."; fi
 if ! _exists /root/acme.sh; then _err "acme.sh not found."; fi
 
 # validate env vars
-if [ -z "${SS_SSL_HOSTNAME}" ]; then _err "missing env var: SS_SSL_HOSTNAME"; fi
+if [ -z "${SS_APP_HOSTNAME}" ]; then _err "missing env var: SS_APP_HOSTNAME"; fi
 if [ -z "${SS_SSL_ROOT}" ]; then _err "missing env var: SS_SSL_ROOT"; fi
 if [ -z "${SS_SSL_DNS_PROVIDER}" ]; then _err "missing env var: SS_SSL_DNS_PROVIDER"; fi
 
@@ -22,7 +22,7 @@ else
 fi
 
 
-_info "installing ssl certs for ${SS_SSL_HOSTNAME}..."
+_info "installing ssl certs for ${SS_APP_HOSTNAME}..."
 
 
 # prepare cmd args for acme.sh
@@ -38,25 +38,25 @@ else
     _err "missing or invalid dns provider."
 fi
 
-acme_arg_hostnames="-d ${SS_SSL_HOSTNAME}"
-if ! is_subdomain "${SS_SSL_HOSTNAME}"; then
-  acme_arg_hostnames="${acme_arg_hostnames} -d www.${SS_SSL_HOSTNAME}"
+acme_arg_hostnames="-d ${SS_APP_HOSTNAME}"
+if ! is_subdomain "${SS_APP_HOSTNAME}"; then
+  acme_arg_hostnames="${acme_arg_hostnames} -d www.${SS_APP_HOSTNAME}"
 fi
 
 # obtain ssl certs
 /root/.acme.sh/acme.sh --issue $acme_arg_hostnames $acme_arg_dns
 
 # create a directory to keep ssl certs permanently
-mkdir -p "${SS_SSL_ROOT}${SS_SSL_HOSTNAME}"
+mkdir -p "${SS_SSL_ROOT}${SS_APP_HOSTNAME}"
 
-ssl_cert=${SS_SSL_ROOT}${SS_SSL_HOSTNAME}/fullchain.pem
-ssl_cert_key=${SS_SSL_ROOT}${SS_SSL_HOSTNAME}/key.pem
+ssl_cert=${SS_SSL_ROOT}${SS_APP_HOSTNAME}/fullchain.pem
+ssl_cert_key=${SS_SSL_ROOT}${SS_APP_HOSTNAME}/key.pem
 
 # copy cert files to the directory and configure cert auto-renewal
-/root/.acme.sh/acme.sh --install-cert -d "${SS_SSL_HOSTNAME}" \
+/root/.acme.sh/acme.sh --install-cert -d "${SS_APP_HOSTNAME}" \
     --key-file "$ssl_cert_key" \
     --fullchain-file "$ssl_cert" \
     --reloadcmd "service nginx force-reload"
 
 
-_success "ssl certs are installed successfully for ${SS_SSL_HOSTNAME}"
+_success "ssl certs are installed successfully for ${SS_APP_HOSTNAME}"
