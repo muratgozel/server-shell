@@ -45,7 +45,7 @@ if ! is_subdomain "${SS_APP_HOSTNAME}"; then
 fi
 
 # obtain ssl certs
-/root/.acme.sh/acme.sh --issue "$acme_arg_hostnames" "$acme_arg_dns"
+/root/.acme.sh/acme.sh --issue $acme_arg_hostnames $acme_arg_dns
 
 # create a directory to keep ssl certs permanently
 mkdir -p "${SS_SSL_ROOT}${SS_APP_HOSTNAME}"

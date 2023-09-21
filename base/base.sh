@@ -45,8 +45,7 @@ is_subdomain() {
     domain=${output%%: *}
     suffix=${output##*: }
     name=${domain%%.$suffix}
-    dots=${name//[^.]}
-    dots_count=${#dots}
+    dots_count=$(echo $name | tr -cd '.' | wc -c | tr -d ' ')
 
     [ "$dots_count" -gt 0 ]
 }
