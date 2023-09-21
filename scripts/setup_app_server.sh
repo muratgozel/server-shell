@@ -18,8 +18,10 @@ export SS_NGINX_CONF_DIR=/etc/nginx/conf.d/
 
 if [ ! -d "${SS_APP_ROOT}${SS_APP_HOSTNAME}/www" ]; then
   mkdir -p "${SS_APP_ROOT}${SS_APP_HOSTNAME}/www"
-  # chgrp buildkite-agent "${SS_APP_ROOT}${SS_APP_HOSTNAME}/www"
-  # chmod g+w "${SS_APP_ROOT}${SS_APP_HOSTNAME}/www"
+  if [ -z "${SS_APP_ROOT_GROUP_OWNER}" ]; then
+    chgrp "${SS_APP_ROOT_GROUP_OWNER}" "${SS_APP_ROOT}${SS_APP_HOSTNAME}/www"
+    chmod g+w "${SS_APP_ROOT}${SS_APP_HOSTNAME}/www"
+  fi
 fi
 
 export SS_NGINX_SSL_CERTIFICATE_PATH=${SS_SSL_ROOT}${SS_APP_HOSTNAME}/fullchain.pem
