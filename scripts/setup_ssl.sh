@@ -5,6 +5,7 @@
 # validate dependencies
 if ! _exists nginx; then _err "nginx not found."; fi
 if ! _exists /root/acme.sh; then _err "acme.sh not found."; fi
+if ! _exists psl; then _err "psl not found."; fi
 
 # validate env vars
 if [ -z "${SS_APP_HOSTNAME}" ]; then _err "missing env var: SS_APP_HOSTNAME"; fi

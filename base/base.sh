@@ -41,7 +41,14 @@ _exists() {
 }
 
 is_subdomain() {
-  echo "$1" | grep -q '.*\..*\..*'
+    output=$(psl --print-unreg-domain $1)
+    domain=${output%%: *}
+    suffix=${output##*: }
+    name=${domain%%.$suffix}
+    dots=${name//[^.]}
+    dots_count=${#dots}
+
+    [ "$dots_count" -gt 0 ]
 }
 
 is_nginx_config_valid() {
