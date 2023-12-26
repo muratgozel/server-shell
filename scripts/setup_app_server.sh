@@ -37,3 +37,5 @@ if ! is_nginx_config_valid; then
 fi
 
 service nginx force-reload
+
+_success "nginx conf generated successfully and app server is ready (${SS_APP_HOSTNAME})"
