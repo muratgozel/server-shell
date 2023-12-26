@@ -4,9 +4,6 @@ set -eu
 
 . "${PWD}/base/base.sh"
 
-# validate dependencies
-if ! _exists aws; then _err "aws not found."; fi
-
 # validate env vars
 if [ -z "${SS_APP_ROOT}" ]; then _err "missing env var: SS_APP_ROOT"; fi
 if [ -z "${SS_APP_HOSTNAME}" ]; then _err "missing env var: SS_APP_HOSTNAME"; fi
